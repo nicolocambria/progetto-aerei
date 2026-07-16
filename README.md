@@ -45,10 +45,6 @@ k8s/          manifest Kubernetes
 scripts/      utility per i test
 .env          tutta la configurazione (soglie, area monitorata, sorgente dati)
 ```
-
-La cartella `data/` (checkpoint di Spark, data lake Parquet, modello
-addestrato) non è nel repository: si rigenera da sola ed è pesante.
-
 ## Stack tecnologico
 
 | | |
