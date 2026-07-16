@@ -1,0 +1,10 @@
+# Dati runtime: checkpoint Spark, data lake Parquet, modelli ML, cache Ivy.
+# Sono rigenerabili e possono pesare molto: mai nel repository.
+data/
+
+# Python
+__pycache__/
+*.pyc
+
+# macOS
+.DS_Store
