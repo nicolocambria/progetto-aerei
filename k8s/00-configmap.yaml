@@ -1,0 +1,19 @@
+# =============================================================================
+# (ESTENSIONE — non usata nella demo Docker Compose)
+# Esempio di migrazione a Kubernetes: la configurazione condivisa della
+# pipeline diventa un ConfigMap, montato come env dai Deployment.
+# =============================================================================
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: flight-pipeline-config
+data:
+  KAFKA_BOOTSTRAP: "kafka:29092"
+  ES_URL: "http://elasticsearch:9200"
+  ES_INDEX_PREFIX: "flights"
+  TOPICS: "flights.alerts,flights.ml-alerts"
+  SOURCE: "adsbfi"
+  AREA_LAT: "41.9"
+  AREA_LON: "12.5"
+  AREA_DIST_NM: "250"
+  POLL_INTERVAL: "30"

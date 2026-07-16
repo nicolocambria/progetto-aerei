@@ -1,0 +1,42 @@
+# =============================================================================
+# (ESTENSIONE — non usata nella demo Docker Compose)
+# Deployment Kubernetes dell'indexer Kafka → Elasticsearch: essendo
+# idempotente (doc_id = topic-partition-offset) può essere scalato o
+# riavviato liberamente senza produrre duplicati.
+# =============================================================================
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flights-indexer
+  labels:
+    app: flights-indexer
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: flights-indexer
+  template:
+    metadata:
+      labels:
+        app: flights-indexer
+    spec:
+      containers:
+        - name: indexer
+          image: python:3.11-slim
+          command: ["bash", "-lc"]
+          args:
+            - pip install --no-cache-dir kafka-python==2.0.2 elasticsearch==8.12.1 &&
+              python /app/indexer.py
+          envFrom:
+            - configMapRef:
+                name: flight-pipeline-config
+          volumeMounts:
+            - name: indexer-src
+              mountPath: /app
+          resources:
+            limits:
+              memory: "256Mi"
+      volumes:
+        - name: indexer-src
+          configMap:
+            name: flights-indexer-src   # creato con: kubectl create configmap flights-indexer-src --from-file=indexer/indexer.py
